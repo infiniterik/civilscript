@@ -12,7 +12,7 @@ load_dotenv()
 
 llm = OpenAI(temperature=0.9)
 
-stanceDescription = """A stance is a combination of a predicate expressed by the author, whether or not the author believes said predicate, and the author's sentiment towards the predicate."""
+from chains.symbolic import stanceDescription
 
 # Symbolic Stance Detection with Neural Explanation
 explanationPrompt = PromptTemplate(

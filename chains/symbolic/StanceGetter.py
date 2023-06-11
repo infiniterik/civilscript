@@ -5,12 +5,12 @@ from langchain.chains.base import Chain
 
 
 import json
-import sys
+import sys, os
 from typing import Dict, List
 
 
 class StanceGetter(Chain):
-    url : str = "http://localhost:5000/stance/sentence"
+    url : str = f"{os.getenv('STANCE_SERVER')}/stance/sentence"
 
     def get_stance(self, text, domain):
         response = requests.post(self.url,

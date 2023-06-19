@@ -17,7 +17,8 @@ from chains.symbolic import stanceDescription
 # Symbolic Stance Detection with Neural Explanation
 explanationPrompt = PromptTemplate(
     input_variables=["text", "stances"],
-    template="""Write a short explanation explaining why the comment below evokes the following stances. Make sure not to add any hypotheses beyond what can be inferred directly from the text:
+    template="""Write a short explanation why the comment below evokes the following stances. 
+    Make sure not to add any hypotheses beyond what can be inferred directly from the text:
     Comment:{text}
     {stances}
     Explanation:""",
@@ -34,7 +35,9 @@ explanationFromSymbolicStance = SequentialChain(chains=[symbolic.StanceGetterCha
 
 stanceDetectionPrompt = PromptTemplate(
     input_variables=["text", "domain"],
-    template="""Write a short explanation explaining why the comment below evokes the following stances about {domain}. Make sure not to add any hypotheses beyond what can be inferred directly from the text:
+    template=stanceDescription+"""Write a short explanation explaining why the comment below evokes the following stances about {domain}. 
+    Express the response as a list of bullet points where each bullet point represents a belief type, a predicate, a belief strength towards the predicate, and a sentiment towards the belief.
+    Make sure not to add any hypotheses beyond what can be inferred directly from the text:
     Comment:{text}
     Stances:""",
 )
@@ -58,4 +61,6 @@ explanationWithoutStancesPrompt = PromptTemplate(
     Explanation:""",
 )
 
-explanationFromTextChain = LLMChain(llm=llm, prompt=explanationWithoutStancesPrompt, output_key="explanation")
+explanationFromTextChain = LLMChain(llm=llm, 
+                                    prompt=explanationWithoutStancesPrompt, 
+                                    output_key="explanation")
